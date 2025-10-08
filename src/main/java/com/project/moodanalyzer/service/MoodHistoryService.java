@@ -2,21 +2,24 @@ package com.project.moodanalyzer.service;
 
 import com.project.moodanalyzer.entity.MoodHistory;
 import com.project.moodanalyzer.repository.MoodHistoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MoodHistoryService {
 
-    @Autowired
-    private MoodHistoryRepository moodHistoryRepository;
+    private final MoodHistoryRepository moodHistoryRepository;
 
-    public MoodHistory saveHistory(MoodHistory history) {
-        return moodHistoryRepository.save(history);
+    // Save a new mood entry
+    public MoodHistory saveMood(MoodHistory moodHistory) {
+        return moodHistoryRepository.save(moodHistory);
     }
 
-    public List<MoodHistory> getUserHistory(Long userId) {
-        return moodHistoryRepository.findByUserId(userId);
+    // Get all mood history for a user
+    public List<MoodHistory> getMoodHistoryByUser(Long userId) {
+        return moodHistoryRepository.findByUserIdOrderByTimestampDesc(userId);
     }
 }
